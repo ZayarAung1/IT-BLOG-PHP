@@ -1,4 +1,4 @@
-
+<?php include('../config.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,6 +70,45 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Category list page</h1>
+                    <a href="create.php" class="btn btn-primary"> ADD Category</a>
+
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>action</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>IT</td>
+                                <td>
+                                    <a href="edit.php" class="btn btn-primary">Edit</a>
+                                    <a href="delete.php" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>AI</td>
+                                <td>
+                                    <a href="edit.php" class="btn btn-primary">Edit</a>
+                                    <a href="delete.php" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Programming</td>\
+                                <td>
+                                    <a href="edit.php" class="btn btn-primary">Edit</a>
+                                    <a href="delete.php" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                           
+                    </table>
 
                 </div>
                 <!-- /.container-fluid -->
