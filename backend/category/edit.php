@@ -1,4 +1,31 @@
-<?php include('../config.php'); ?>
+
+<?php 
+include '../config.php';
+include '../../dbconnet.php';
+
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $stmt = $pdo->prepare("SELECT * FROM categories WHERE id = :id");
+    $stmt->execute([
+        'id' => $id
+    ]);
+    $category = $stmt->fetch(PDO::FETCH_ASSOC);
+    // print_r($category);
+
+   if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = htmlspecialchars($_POST['categoryName']);
+    $stmt = $pdo->prepare("UPDATE categories SET name = :name WHERE id = :id");
+    $stmt->execute([
+        'name' => $name,
+        'id' => $id
+    ]);
+    header('Location: list.php');
+}   
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +56,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include('../sidebar.php'); ?>
+        <?php include '../sidebar.php'; ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -39,48 +66,23 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Topbar Navbar -->
-                    <?php include('../navbar.php'); ?>
-                    <!-- End of Topbar Navbar -->   
-                
+                <?php include '../navbar.php'; ?>
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Edit Category page</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Category Edit Page</h1>
                     <a href="list.php" class="btn btn-primary">Back</a>
 
-                    <form action="#" method="POST">
+                    <form action="#" method="post">
                         <div class="form-group">
-                            <label for="name">Edit Category</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category name" required value="IT">
+                            <label for="name">Name</label><br>
+                            <input type="text" placeholder="Enter Category Name" name = "categoryName" class="from-control w-50" required value = "<?php echo $category['name']; ?>" id = "name"  >
                         </div>
-                        <button class="btn btn-primary">UPdate</button>
-
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -88,7 +90,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <?php include('../footer.php'); ?>
+            <?php include'../footer.php'?>
             <!-- End of Footer -->
 
         </div>

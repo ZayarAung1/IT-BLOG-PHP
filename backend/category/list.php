@@ -1,4 +1,7 @@
-<?php include('../config.php'); ?>
+<?php 
+include('../config.php');
+include('../../dbconnet.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +32,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include('../sidebar.php'); ?>
+        <?php include '../sidebar.php'; ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -39,77 +42,43 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Topbar Navbar -->
-                    <?php include('../navbar.php'); ?>
-                    <!-- End of Topbar Navbar -->   
-                
+                <?php include '../navbar.php'; ?>
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Category list page</h1>
-                    <a href="create.php" class="btn btn-primary"> ADD Category</a>
+                    <h1 class="h3 mb-4 text-gray-800">Category List Page</h1>
+                    <a href="create.php" class="btn btn-primary">Add Category</a>
 
-                    <table class="table table-bordered table-hover">
+                    <table class="table table_bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Id</th>
-                                <th>Name</th>
+                                <th>id</th>
+                                <th>name</th>
                                 <th>action</th>
-                                
                             </tr>
                         </thead>
                         <tbody>
+                                 <?php 
+                                $stmt = $pdo->query("SELECT * FROM categories ORDER BY id DESC");
+                                $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                // print_r($categories);
+                                $i=1;
+                                foreach ($categories as $category):
+                            ?>
                             <tr>
-                                <td>1</td>
-                                <td>IT</td>
+                                <td><?= $i++; ?></td>  
+                                <td><?= $category['name'] ?></td>
                                 <td>
-                                    <a href="edit.php" class="btn btn-primary">Edit</a>
-                                    <a href="delete.php" class="btn btn-danger">Delete</a>
+                                    <a href="edit.php?id=<?= $category['id'] ?>" class="btn btn-primary">Edit</a>
+                                    <a href="delete.php? id=<?= $category['id'] ?>" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>AI</td>
-                                <td>
-                                    <a href="edit.php" class="btn btn-primary">Edit</a>
-                                    <a href="delete.php" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Programming</td>\
-                                <td>
-                                    <a href="edit.php" class="btn btn-primary">Edit</a>
-                                    <a href="delete.php" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
-                           
                     </table>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -117,7 +86,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <?php include('../footer.php'); ?>
+            <?php include'../footer.php'?>
             <!-- End of Footer -->
 
         </div>
