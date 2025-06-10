@@ -35,9 +35,15 @@
             <span>Categories</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="<?= route('student/lists.php') ?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Student list</span></a>
+    </li>
+
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="post/list.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Posts</span></a>
     </li>
