@@ -43,7 +43,7 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="post/list.html">
+        <a class="nav-link" href="<?= route('post/list.php') ?>">
             <i class="fas fa-fw fa-table"></i>
             <span>Posts</span></a>
     </li>

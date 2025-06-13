@@ -1,6 +1,16 @@
 <?php 
 include '../config.php'; 
 include '../../dbconnet.php';
+
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $stmt = $pdo->prepare("SELECT posts.*, users.name AS author_name, categories.name AS category_name FROM posts LEFT JOIN users ON posts.author_id = users.id LEFT JOIN categories ON posts.category_id = categories.id WHERE posts.id = :id");
+    $stmt->execute([
+        'id' => $id
+    ]);
+    $post = $stmt->fetch(PDO::FETCH_ASSOC);
+    // print_r($post);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,43 +59,17 @@ include '../../dbconnet.php';
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Post List Page</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Post Detail Page</h1>
                     
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>No</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                                $stmt = $pdo->query("SELECT posts.*, users.name AS author_name, categories.name AS category_name FROM posts LEFT JOIN users ON posts.author_id = users.id LEFT JOIN categories ON posts.category_id = categories.id ORDER BY id DESC");
-                                $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                // print_r($posts);
-                                $i=1;
-                                foreach ($posts as $post):
-                            ?>
-                            <tr>
-                                <td><?= $i++; ?></td>  
-                                <td><?= $post['title'] ?></td>
-                                <td><?= $post['author_name'] ?></td>
-                                <td><?= $post['category_name'] ?></td>
-                                <td>
-                                  <?= $post['status'] ?>
-                                  <p><?= $post['created_at'] ?></p>
-                                </td>
-                                <td>
-                                    <a href="detail.php?id=<?= $post['id'] ?>" class="btn btn-primary">Detail</a>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                    <div class="card mb-3">
+                      <!-- <img src="..." class="card-img-top" alt="..."> -->
+                      <div class="card-body">
+                        <h5 class="card-title"><?= $post['title'] ?></h5>
+                        <p class="card-text"><small class="text-body-secondary">Category: <strong><?= $post['category_name'] ?></strong></small></p>
+                        <p class="card-text"><?= $post['content'] ?></p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago <strong>By <?= $post['author_name'] ?></strong></small></p>
+                      </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
